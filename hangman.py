@@ -54,7 +54,7 @@ stages = [["___   "],
            " | /|\\",
            " | / \\",
            "_|_   "]]
-           
+
 class HangmanGame:
     
     def __init__(self, games):
@@ -144,14 +144,18 @@ class SecretWord:
         
 def main():
     print("Hello! Would you like to play a game of hangman?")
-    if input("Y/N: ").lower() == 'n': return
+    negative_answers = ["n", "no", "nope"]
+    if input("Y/N: ").lower() in negative_answers: return
     print("How many games do you want to play?")
     
     while True:
-        games = int(input("A number 1-3 (inclusive): "))
-        if games > 0 and games < 4:
-            break
-        print("Invalid number")
+        try:
+            games = int(input("A number 1-3 (inclusive): "))
+            if games > 0 and games < 4:
+                break
+            print("Invalid number")
+        except ValueError:
+            print("Not a number")
     
     game = HangmanGame(games)
     game.start_game()

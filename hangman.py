@@ -123,7 +123,7 @@ class HangmanGame:
                 self.guessed_letters.append(letter)
                 if letter not in self.word.word:
                     self.guesses += 1
-                return
+                break
         
 class SecretWord:
     

@@ -62,14 +62,13 @@ class HangmanGame:
             games - the number of games to be played
             words_used - the secret words used during the game
                          (ensures no repeats are used)
-            max_guesses - the maximum number of guesses able to be used by the
-                          player (a.k.a number of stages in hangman graphic)
+            max_guesses - the maximum number of incorrect guesses to be made
+                          (a.k.a number of stages in hangman graphic)
         """
         self.games = games
         self.words_used = []
         self.max_guesses = len(stages) - 1
-        self.start_game()
-        
+
     def start_game(self):
         """Main game function containing game loop"""
         while self.games > 0:
@@ -118,7 +117,7 @@ class HangmanGame:
             letter = input("Guess a letter: ").lower()
             if letter in self.guessed_letters:
                 print("You've already guessed that letter")
-            elif letter.isalpha():
+            elif letter.isalpha() and len(letter) == 1:
                 self.guessed_letters.append(letter)
                 if letter not in self.word.word:
                     self.guesses += 1
@@ -155,5 +154,6 @@ def main():
         print("Invalid number")
     
     game = HangmanGame(games)
+    game.start_game()
     
 main()

@@ -60,11 +60,14 @@ class HangmanGame:
     def __init__(self, games):
         """
             games - the number of games to be played
-            words_used = the secret words used during the game
+            words_used - the secret words used during the game
                          (ensures no repeats are used)
+            max_guesses - the maximum number of incorrect guesses to be made
+                          (a.k.a number of stages in hangman graphic)
         """
         self.games = games
         self.words_used = []
+        self.max_guesses = len(stages) - 1
         self.start_game()
         
     def start_game(self):
@@ -80,7 +83,7 @@ class HangmanGame:
                 if self.word.guessed(self.guessed_letters):
                     print("You won!")
                     break
-                if self.guesses == 9:
+                if self.guesses == self.max_guesses:
                     self.display_game_over()
                     break
                 self.get_guess()
@@ -107,7 +110,7 @@ class HangmanGame:
         for letter in self.guessed_letters: 
             print(letter, end=", ")
         print("\nGuesses Remaining:")
-        print(9 - self.guesses)
+        print(self.max_guesses - self.guesses)
         
     def get_guess(self):
         """Gets and validates guess from player"""
@@ -115,7 +118,7 @@ class HangmanGame:
             letter = input("Guess a letter: ").lower()
             if letter in self.guessed_letters:
                 print("You've already guessed that letter")
-            elif letter.isalpha():
+            elif letter.isalpha() and len(letter) == 1:
                 self.guessed_letters.append(letter)
                 if letter not in self.word.word:
                     self.guesses += 1
@@ -132,6 +135,7 @@ class SecretWord:
         return [c if c in guessed_letters else '_' for c in self.word]
     
     def guessed(self, guessed_letters):
+        """Returns True if the word has been guessed using the letters"""
         return not '_' in self.get_word_guessed(guessed_letters)
     
     def random_word(self, source="words.txt"):

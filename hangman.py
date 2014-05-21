@@ -70,13 +70,14 @@ class HangmanGame:
         self.max_guesses = len(stages) - 1
 
     def start_game(self):
-        """Main game function containing game loop"""
+        """Start the main game loop"""
         while self.games > 0:
             print("New game started. " + str(self.games) + " game/s remaining")
             self.games -= 1
             self.guessed_letters = []
             self.get_new_word()
             self.guesses = 0
+            # implementation of do-while loop
             while True:
                 self.display_status()
                 if self.word.guessed(self.guessed_letters):
@@ -95,6 +96,7 @@ class HangmanGame:
         """Gets a new secret word to guess"""
         while True:
             self.word = SecretWord()
+            # ensures the same word is not used across multiple games
             if self.word.word not in self.words_used:
                 self.words_used.append(self.word.word)
                 break
@@ -139,13 +141,14 @@ class SecretWord:
     
     def random_word(self, source="words.txt"):
         """Returns a random word from source file in current directory"""
-        # slice to remove newlines
+        # slice to remove newlines from word
         return random.choice(open(source, 'r').readlines())[:-1]
         
 def main():
     print("Hello! Would you like to play a game of hangman?")
     negative_answers = ["n", "no", "nope"]
-    if input("Y/N: ").lower() in negative_answers: return
+    if input("Y/N: ").lower() in negative_answers: 
+        return
     print("How many games do you want to play?")
     
     while True:
@@ -160,4 +163,5 @@ def main():
     game = HangmanGame(games)
     game.start_game()
     
-main()
+if __name__ == "__main__":
+    main()
